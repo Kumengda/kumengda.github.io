@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
 <meta property="article:published_time" content="2022-01-09T07:03:04.000Z">
-<meta property="article:modified_time" content="2022-01-09T12:09:18.569Z">
+<meta property="article:modified_time" content="2022-01-09T13:02:08.953Z">
 <meta property="article:author" content="Mengd@">
 <meta property="article:tag" content="-Java代码审计 -Structs2">
 <meta name="twitter:card" content="summary">
@@ -79,7 +79,7 @@ var saveToLocal = {
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2022-01-09 20:09:18'
+  postUpdate: '2022-01-09 21:02:08'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -145,7 +145,7 @@ if (asideStatus !== undefined) {
      document.documentElement.classList.remove('hide-aside')
    }
 }})()</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Mengd@" type="application/atom+xml">
-</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Mengd@</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Struct2-S001详细分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-09T07:03:04.000Z" title="发表于 2022-01-09 15:03:04">2022-01-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-09T12:09:18.569Z" title="更新于 2022-01-09 20:09:18">2022-01-09</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h1><p>本篇文章是站在一个只会一丁点java基础,没有任何Java开发经验的的菜鸡眼中去完成的.所设计知识点繁多,杂乱,从Struct2的执行流程到漏洞Rce,适合小白看.本次分析的是Struct2-S001,版本为2.0.8</p>
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Mengd@</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Struct2-S001详细分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-09T07:03:04.000Z" title="发表于 2022-01-09 15:03:04">2022-01-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-09T13:02:08.953Z" title="更新于 2022-01-09 21:02:08">2022-01-09</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h1><p>本篇文章是站在一个只会一丁点java基础,没有任何Java开发经验的的菜鸡眼中去完成的.所设计知识点繁多,杂乱,从Struct2的执行流程到漏洞Rce,适合小白看.本次分析的是Struct2-S001,版本为2.0.8</p>
 <h1 id="0X01-OGNL表达式"><a href="#0X01-OGNL表达式" class="headerlink" title="0X01:OGNL表达式"></a>0X01:OGNL表达式</h1><p><a target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-ognl/">OGNL</a> 是 Object Graphic Navigation Language (对象图导航语言)的缩写，是一个开源项目。它是一种功能强大的表达式语言，通过它简单一致的表达式语法，可以存取对象的任意属性，调用对象的方法。</p>
 <p>Struts2 中支持以下几种表达式语言：OGNL、JSTL、Groovy、Velocity。Struts 框架使用 OGNL 作为默认的表达式语言。</p>
 <p>为什么这里要提到OGNL表达式呢?因为就是OGNL存在可以执行java代码的函数,而struct2使用了OGNL进行开发,但是在这个过程中由于疏忽导致用户可控OGNL处理的表达式数据从而造成注入.</p>
@@ -185,11 +185,11 @@ if (asideStatus !== undefined) {
 <p>可以看到 OGNL表达式的功能非常强大,用户一旦可控后果不堪设想.</p>
 <h1 id="0X02-Struct2"><a href="#0X02-Struct2" class="headerlink" title="0X02:Struct2"></a>0X02:Struct2</h1><p>百度Struct2审计已经有一大把教程使用Maven来搭建复现环境了,这里就不浪费篇章再复制粘贴一边,直接进入主题.</p>
 <p>看到这篇文章的大家应该下面这张图大家应该已经不陌生了,他清楚的写出了Struct2的执行流程.</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109151832955.png" class title="image-20220109151832955">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109151832955.png" class title="image-20220109151832955">
 
 <p>让我们跟着这个图来看一下这个Struct2究竟是怎么执行的.</p>
 <p>项目目录如下:</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109153039655.png" class title="image-20220109153039655">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109153039655.png" class title="image-20220109153039655">
 
 <h2 id="1-Filter-过滤器"><a href="#1-Filter-过滤器" class="headerlink" title="1.Filter(过滤器)"></a>1.Filter(过滤器)</h2><p>客户端发起一个http请求,这个请求经过我们的Tomcat容器处理后首先便要经过这个巨大的黄色方框,这也就是Struct2的起点,过滤器</p>
 <p>这个核心过滤器的配置在我们的web.xml中,它规定了我们的请求走的是哪一个过滤器</p>
@@ -198,7 +198,7 @@ if (asideStatus !== undefined) {
 <p>从配置文件中不难看出我们经过的过滤器是来自org.apache.struts2.dispatcher.FilterDispatcher类,规则是所有的请求全部经过</p>
 <p>(url-pattern为/*)</p>
 <p>我们来到org.apache.struts2.dispatcher.FilterDispatcher:152</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109153722240.png" class title="image-20220109153722240">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109153722240.png" class title="image-20220109153722240">
 
 <p>首先便会获取request,response,servletContext</p>
 <p>接着来到org.apache.struts2.dispatcher.FilterDispatcher:184</p>
@@ -209,42 +209,42 @@ if (asideStatus !== undefined) {
 
 <p>在这个地方实例化ActionProxy,这个ActionProxy也就是为Struct2执行流程图中的第五步做准备</p>
 <p>往下来到org.apache.struts2.dispatcher.Dispatcher:339,调用proxy的execute执行动作,也就是执行了Struct2流程中的ActionProxy到拦截器这一过程</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109165218191.png" class title="image-20220109165218191">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109165218191.png" class title="image-20220109165218191">
 
 <p>根据流程图我们也可以看到现在我们来到拦截器的部分了</p>
 <h3 id="3-拦截器"><a href="#3-拦截器" class="headerlink" title="3.拦截器"></a>3.拦截器</h3><p>跟进proxy.execute()后直接调用invocation.invoke(),这里面通过反射机制调用了用户action中的excute(下图中的excute)</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109165540002.png" class title="image-20220109165540002">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109165540002.png" class title="image-20220109165540002">
 
 <h2 id="4-执行动作"><a href="#4-执行动作" class="headerlink" title="4.执行动作"></a>4.执行动作</h2><p>这里便是我们自己写的execute了,判断用户名和密码是否为空,如果为空则返回error</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109174040674.png" class title="image-20220109174040674">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109174040674.png" class title="image-20220109174040674">
 
 <h1 id="0X03-漏洞造成点"><a href="#0X03-漏洞造成点" class="headerlink" title="0X03:漏洞造成点"></a>0X03:漏洞造成点</h1><p>前面的一大堆只是大致了解了一下Struct2是如何工作的(这其中其实说的也不是特别详细,只是个大概,毕竟第一次接触,理解的十分不完善),网上大部分文章也没有提及,都是从下文doEndTag开始分析的,在开始分析之前我想各位应该都自己搭过环境并且复现过了,这里抛出了我的一个疑问</p>
 <p><strong>疑问1:为什么只有在return “error”的时候会复现成功而return “success”的时候不会呢?</strong></p>
 <p>这个疑问会在后面进行解答</p>
 <p>我么们输入如下的字符串%{2+2}</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109183038955.png" class title="image-20220109183038955">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109183038955.png" class title="image-20220109183038955">
 
 <p>经过前面一大堆Struct2的处理后来到了doEndTag和doStartTag</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109175802212.png" class title="image-20220109175802212">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109175802212.png" class title="image-20220109175802212">
 
 <p>doStartTag是用来解析.jsp文件的函数,解析开始标签的时候会用到</p>
 <p>doEndTag是用来解析.jsp文件的函数,解析结束标签的时候会用到</p>
 <p>当执行到doEndTag时就代表已经解析完了对应jsp文件表单上的数据,即将传递给Struct2进行处理,那么我们就把断点下在ComponentTagSupport.class:25,看一下数据都被拿去干了啥</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109181944424.png" class title="image-20220109181944424">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109181944424.png" class title="image-20220109181944424">
 
 <p>跟进compoent.end()</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109183420459.png" class title="image-20220109183420459">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109183420459.png" class title="image-20220109183420459">
 
 <p>继续跟进evaluateParams()</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109183936560.png" class title="image-20220109183936560">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109183936560.png" class title="image-20220109183936560">
 
 <p>往下看到302行(UIBean.class),此处会判断altSynatax()是否开启,也就是否允许在标签中使用表达式语法,这里默认就是True,这是很重要的.如果没开启这个就无法造成rce</p>
 <p>然后我们就会得到一个拼接好的字符串(表达式)%{username},等等OGNL就通过这个表达式来获取表单中username的值</p>
 <p>继续往下看到306行,跟进findValue</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109184322019.png" class title="image-20220109184322019">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109184322019.png" class title="image-20220109184322019">
 
 <p>跟进TestPareUtil.translateVariables(),继续跟进translateVariables()</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109184435854.png" class title="image-20220109184435854">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109184435854.png" class title="image-20220109184435854">
 
 <p>来到translateVariables()这里也是主要的漏洞代码段,我们把它单独拿出来</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">translateVariables</span><span class="params">(<span class="keyword">char</span> open, String expression, ValueStack stack, Class asType, TextParseUtil.ParsedValueEvaluator evaluator)</span> </span>&#123;</span><br><span class="line">    Object result = expression;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> start = expression.indexOf(open + <span class="string">&quot;&#123;&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> length = expression.length();</span><br><span class="line">        <span class="keyword">int</span> x = start + <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">int</span> count = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(start != -<span class="number">1</span> &amp;&amp; x &lt; length &amp;&amp; count != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">char</span> c = expression.charAt(x++);</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="string">&#x27;&#123;&#x27;</span>) &#123;</span><br><span class="line">                ++count;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">&#x27;&#125;&#x27;</span>) &#123;</span><br><span class="line">                --count;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> end = x - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (start == -<span class="number">1</span> || end == -<span class="number">1</span> || count != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> XWorkConverter.getInstance().convertValue(stack.getContext(), result, asType);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String <span class="keyword">var</span> = expression.substring(start + <span class="number">2</span>, end);</span><br><span class="line">        Object o = stack.findValue(<span class="keyword">var</span>, asType);</span><br><span class="line">        <span class="keyword">if</span> (evaluator != <span class="keyword">null</span>) &#123;</span><br><span class="line">            o = evaluator.evaluate(o);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String left = expression.substring(<span class="number">0</span>, start);</span><br><span class="line">        String right = expression.substring(end + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (o != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (TextUtils.stringSet(left)) &#123;</span><br><span class="line">                result = left + o;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                result = o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (TextUtils.stringSet(right)) &#123;</span><br><span class="line">                result = result + right;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            expression = left + o + right;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result = left + right;</span><br><span class="line">            expression = left + right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -260,20 +260,20 @@ if (asideStatus !== undefined) {
 <p>在第50行,如果if的条件满足将进入第51行,也就是说如果输入的字符串不是形如%{xxx}的话就会进入51行,如果是的话就会往下进行.</p>
 <p>我们这里执行第一次循环,输入的是%{username},经过一个循环后 start=0 count=0 end=10 不满足if条件,进入下面的继续执行</p>
 <p>来到第55行,stack.findValue(var,asType)这个时候var=username也就是%{}中的值,将username当作表达式进行解析,而OGNL表达式解析跟对象的时候直接写名字就好了,所以跟进一下看看</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109192547701.png" class title="image-20220109192547701">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109192547701.png" class title="image-20220109192547701">
 
 <p>来到重点了,此时执行OgnlUtil.getValue(expr,this,context,this.root,asType)</p>
 <p>前面说了,ognl的getvalue方法是可以执行代码的,只要expr为我们所控就可以,这里执行第一次解析,得到value的值为%{2+2}(因为表单中username的值是%{2+2}这里解析出来了),到现在,我们的payload出现了.</p>
 <p>我i们往下看一下</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109193719677.png" class title="image-20220109193719677">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109193719677.png" class title="image-20220109193719677">
 
 <p>执行完后返回,现在Object o的值为%{2+2},值的注意的是我们现在还是在translateVariables这个方法中的第一个死循环里面的,往下执行发现result已经被重新赋值了,变为了o</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109194435064.png" class title="image-20220109194435064">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109194435064.png" class title="image-20220109194435064">
 
 <p>继续往下执行便重新这一个过程了,此时的result为我们的%{2+2},我们的%{2+2}又会被当做ognl表达式进行解析,将字符串”2+2”传递到OgnlUtil.getValue(expr,this,context,this.root,asType)中进行计算</p>
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109194830732.png" class title="image-20220109194830732">当执行到第三次循环时,此时o已经为4(注意32行),已经无法满足需求了,start已经为-1,会直接进入第51行,结束循环
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109194830732.png" class title="image-20220109194830732">当执行到第三次循环时,此时o已经为4(注意32行),已经无法满足需求了,start已经为-1,会直接进入第51行,结束循环
 
-<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109194953004.png" class title="image-20220109194953004">
+<img src="/2022/01/09/Struct2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220109194953004.png" class title="image-20220109194953004">
 
 <p>至此,整个过程已经清晰明了了,整个漏洞的核心就在于在translateVariables中反复对表达式进行解析,本来解析一层%{username}就可以了,但是开发者将username反复解析直到没有形如%{}的式子位置,那么就造成了注入,用户可控ognl的getvalue方法,从而导致执行任意命令</p>
 <h1 id="0X04-解决刚刚发生的问题"><a href="#0X04-解决刚刚发生的问题" class="headerlink" title="0X04:解决刚刚发生的问题"></a>0X04:解决刚刚发生的问题</h1><p><strong>疑问1:为什么只有在return “error”的时候会复现成功而return “success”的时候不会呢?</strong></p>
