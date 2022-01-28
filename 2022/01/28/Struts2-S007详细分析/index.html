@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Struts2-S007详细分析 | Mengd@</title><meta name="keywords" content="Java代码审计,Struts2"><meta name="author" content="Mengd@"><meta name="copyright" content="Mengd@"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="前言:在分析007的过程中发现007和001有一定的相似程度,但是在搭建环境的时候被网上不少文章给误导了,很明显这些文章并不是很清楚整个漏洞的触发条件以及原理,大部分的文章都会添加一个[ActionName]-validation.xml的验证表单,好像这个东西是整个漏洞触发的必要条件.后来发现这个是vulhub中带的,大家没有自己搭建环境就直接下载现成环境自然而然也不会去追究为什么会有这么一个东">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Struts2-S007详细分析">
+<meta property="og:url" content="http://example.com/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Mengd@">
+<meta property="og:description" content="前言:在分析007的过程中发现007和001有一定的相似程度,但是在搭建环境的时候被网上不少文章给误导了,很明显这些文章并不是很清楚整个漏洞的触发条件以及原理,大部分的文章都会添加一个[ActionName]-validation.xml的验证表单,好像这个东西是整个漏洞触发的必要条件.后来发现这个是vulhub中带的,大家没有自己搭建环境就直接下载现成环境自然而然也不会去追究为什么会有这么一个东">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s4.ax1x.com/2022/01/27/7jwhwV.png">
+<meta property="article:published_time" content="2022-01-28T04:42:59.000Z">
+<meta property="article:modified_time" content="2022-01-28T07:45:01.165Z">
+<meta property="article:author" content="Mengd@">
+<meta property="article:tag" content="Java代码审计">
+<meta property="article:tag" content="Struts2">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s4.ax1x.com/2022/01/27/7jwhwV.png"><link rel="shortcut icon" href="https://s3.ax1x.com/2021/01/15/s0eSiT.png"><link rel="canonical" href="http://example.com/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: {"text":"Mengd@,Flag,CTF,Web,Misc,Pwn,N0p3,Nysec","fontSize":"15px"},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-28 15:45:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Mengd@" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s4.ax1x.com/2022/01/27/7jwhwV.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Mengd@</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><h1 class="post-title">Struts2-S007详细分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-28T04:42:59.000Z" title="发表于 2022-01-28 12:42:59">2022-01-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-28T07:45:01.165Z" title="更新于 2022-01-28 15:45:01">2022-01-28</time></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h1><p>在分析007的过程中发现007和001有一定的相似程度,但是在搭建环境的时候被网上不少文章给误导了,很明显这些文章并不是很清楚整个漏洞的触发条件以及原理,大部分的文章都会添加一个<code>[ActionName]-validation.xml</code>的验证表单,好像这个东西是整个漏洞触发的必要条件.后来发现这个是vulhub中带的,<strong>大家没有自己搭建环境就直接下载现成环境自然而然也不会去追究为什么会有这么一个东西以及他究竟是不是有必要的</strong>所以自己搭建环境进行复现是非常有必要的</p>
+<h1 id="0X01-环境搭建"><a href="#0X01-环境搭建" class="headerlink" title="0X01:环境搭建"></a>0X01:环境搭建</h1><p>S2-007究竟会在什么样的一个环境下触发,首先就需要直到为什么会造成这个漏洞</p>
+<p>很多文章一开头就说了,这个漏洞发生在类型转换时如果发生错误(比如abcd不能转换为int类型)的时候会将错误保存起来,然后将发生错误的参数传入input视图(struct.xml中配置),input视图如果存在标签解析,而这个标签恰巧是我们的可控数值,这个时候就struct就会默认尝试先去使用ognl解析这个标签的值,如果此时我们的值是一个ognl表达式那么就会被解析了</p>
+<p>所以能够造成此漏洞的需要的必要环境条件是</p>
+<p>1.于存在类型转换错误</p>
+<p>2.配置input视图</p>
+<p>3.input视图需要存在标签解析</p>
+<p>而不是什么[ActionName]-validation.xml</p>
+<p>这里给出核心配置文件内容</p>
+<p>struts.xml:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">struts</span> <span class="meta-keyword">PUBLIC</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">&quot;-//Apache Software Foundation//DTD Struts Configuration 2.5//EN&quot;</span></span></span><br><span class="line"><span class="meta">        <span class="meta-string">&quot;http://struts.apache.org/dtds/struts-2.5.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">struts</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">&quot;struts.devMode&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">&quot;struts.enable.DynamicMethodInvocation&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">&quot;myPackage&quot;</span> <span class="attr">extends</span>=<span class="string">&quot;struts-default&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">default-action-ref</span> <span class="attr">name</span>=<span class="string">&quot;index&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">&quot;index&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.example.HelloWorldAction&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span>&gt;</span>/WEB-INF/jsp/index.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">&quot;demo&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.example.HelloWorldAction&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">&quot;success&quot;</span>&gt;</span>/welcome.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">&quot;input&quot;</span>&gt;</span>/welcome.jsp<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">package</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">struts</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>HelloWorldAction.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright 2006 The Apache Software Foundation.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></span><br><span class="line"><span class="comment"> * you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment"> * You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *      http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment"> * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></span><br><span class="line"><span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment"> * See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment"> * limitations under the License.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.opensymphony.xwork2.ActionSupport;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldAction</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer payload = <span class="keyword">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HelloWorldAction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPayload</span><span class="params">(Integer payload)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.payload = payload;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">setPayload</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.payload;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;success&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>index.jsp</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span></span><br><span class="line">         pageEncoding=<span class="string">&quot;UTF-8&quot;</span>%&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;s&quot;</span> uri=<span class="string">&quot;/struts-tags&quot;</span> %&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br><span class="line">    &lt;title&gt;S2-007&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h2&gt;S2-007 Demo&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;s:form action=<span class="string">&quot;demo&quot;</span>&gt;</span><br><span class="line">    &lt;s:textfield name=<span class="string">&quot;payload&quot;</span> label=<span class="string">&quot;payload&quot;</span> /&gt;</span><br><span class="line">    &lt;s:submit&gt;&lt;/s:submit&gt;</span><br><span class="line">&lt;/s:form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>welcome.jsp</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span></span><br><span class="line">         pageEncoding=<span class="string">&quot;UTF-8&quot;</span>%&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;s&quot;</span> uri=<span class="string">&quot;/struts-tags&quot;</span> %&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><br><span class="line">    &lt;title&gt;S2-007&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h2&gt;S2-007 Demo&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;s:form action=<span class="string">&quot;demo&quot;</span>&gt;</span><br><span class="line">    &lt;s:textfield name=<span class="string">&quot;payload&quot;</span> label=<span class="string">&quot;payload&quot;</span> /&gt;</span><br><span class="line">    &lt;s:submit&gt;&lt;/s:submit&gt;</span><br><span class="line">&lt;/s:form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="0X02-报错处理导致的字符串拼接"><a href="#0X02-报错处理导致的字符串拼接" class="headerlink" title="0X02:报错处理导致的字符串拼接"></a>0X02:报错处理导致的字符串拼接</h1><p>可以看到我的HelloWorldAction.java里面定义的payload是int类型的,而我们传入到Action里面的参数默认都是字符串,我传参123,其实是个字符串”123”,但是字符串123是可以被强制类型转换为int类型的,不会报错.但当我们输入的是字符的时候,便会触发报错,而恰巧就是这个地方,造成了漏洞</p>
+<p>验证payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;+(#application)+&#39;</span><br></pre></td></tr></table></figure>
+
+<p>首先带着我们的payload请求</p>
+<p>我们在xwork.com.opensymphony.xwork2.conversion.impl.XWorkConverter.class中的handleConversionExpection方法处下断点,该方法是处理一个转换异常的句柄</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128142655991.png" class title="image-20220128142655991">
+
+<p>可以看到创建了一个conversionErrors的map并且将造成异常的参数名和参数值存入,</p>
+<p>realProperty=payload</p>
+<p>value=’+(#application)+’</p>
+<p>然后我们就来到了拦截器</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128142839086.png" class title="image-20220128142839086">
+
+<p>将刚刚的conversionErrors取出来,然后进入while循环,if判断此时的propertyName和value是否为空,很明显他们不为空,propertyName是参数名,value是参数值</p>
+<p>然后进入if,将对应的错误信息取出,message和action的值为</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128143602492.png" class title="image-20220128143602492">
+
+<p>然后会进入下面的fakie.put方法</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128143631831.png" class title="image-20220128143631831">
+
+<p>跟进getOverrideExpr</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128143714782.png" class title="image-20220128143714782">
+
+<p>可以发现这里将value压入stake,然后又取出stake的top也就是又把value取出来进行拼接,拼接两个单引号,然后返回</p>
+<p>这个地方就出了大问题了,假设这个地方没有进行字符串拼接,那无论如何我们的stak.findvalue取出来的值都会是一个单独的字符串,但是这个地方进行了拼接,拼接过后的payload就变成了’’+(#application)+’’这是一个可以被ognl解析的表达式,等等会被解析ASTAdd类型,然后执行ognl表达式导致注入</p>
+<p>现在fakie中已经有我们的拼接后的表达式了</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128151011077.png" class title="image-20220128151011077">
+
+<p>接着便会new一个PreResultListener,并且将fakie中的值取出来.</p>
+<p>接着就要重新渲染一次页面了,这个时候会和S2-001一样调用dostarttag,doendtag,S2-001是由于循环解析导致了我们可以直接控制ognl解析内容,而S2-007是由于类型转换出错,现在需要通过input视图输出错误数据,而这个时候错误数据已经不是我们原本输入的错误数据了,而是经过字符串拼接过后的错误数据,而ognl又会解析这个拼接后的错误数据,所以直接执行ognl表达式了</p>
+<p>来到xwork.com.opensymphony.xwork2.ognl.OgnlValueStack的tryFindValue方法</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128151722939.png" class title="image-20220128151722939">
+
+<p>此时expr的值还为payload,现在需要去lookupForOverrides方法查询这个方法的值,跟进</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128151809513.png" class title="image-20220128151809513">
+
+<p>从overrides中查找payload,而之前错误处理的时候已经将拼接过后的字符串传入进去了,所以这个地方会直接获取到</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128151857572.png" class title="image-20220128151857572">
+
+<p>expr为拼接后的恶意payload</p>
+<p>然后直接调用getValue-&gt;ognlUtil.getValue-&gt;Ognl.getValue</p>
+<p>通过ASTAdd拆分为其他的ASTNode,分别调用</p>
+<img src="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/image-20220128152127491.png" class title="image-20220128152127491">
+
+<p>之后的过程就是ognl解析AST树的过程了,在对S2-003的文章中有详细介绍过</p>
+<p>完整payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39; + (#_memberAccess[&quot;allowStaticMethodAccess&quot;]&#x3D;true ,#context[&quot;xwork.MethodAccessor.denyMethodExecution&quot;]&#x3D;new java.lang.Boolean(&quot;false&quot;),@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(&#39;calc&#39;).getInputStream())) + &#39;</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Mengd@</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/">http://example.com/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Mengd@</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">Java代码审计</a><a class="post-meta__tags" href="/tags/Struts2/">Struts2</a></div><div class="post_share"><div class="social-share" data-image="https://s4.ax1x.com/2022/01/27/7jwhwV.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/28/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">常用单词随笔记录</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/27/Struts2-S005详细分析/" title="Struts2-S2 005详细分析"><img class="cover" src="https://s4.ax1x.com/2022/01/27/7jwhwV.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-27</div><div class="title">Struts2-S2 005详细分析</div></div></a></div><div><a href="/2022/01/26/Struts2-S003详细分析/" title="Struts2-S2 003详细分析"><img class="cover" src="https://s4.ax1x.com/2022/01/27/7jwhwV.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-26</div><div class="title">Struts2-S2 003详细分析</div></div></a></div><div><a href="/2022/01/09/Struts2-S001详细分析/" title="Struts2-S2 001详细分析"><img class="cover" src="https://s4.ax1x.com/2022/01/27/7jwhwV.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-09</div><div class="title">Struts2-S2 001详细分析</div></div></a></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Mengd@</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kumengda"><i class="fab fa-github"></i><span>访问我的github</span></a></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is Mengd@ Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0X01-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">0X01:环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0X02-%E6%8A%A5%E9%94%99%E5%A4%84%E7%90%86%E5%AF%BC%E8%87%B4%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">0X02:报错处理导致的字符串拼接</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/" title="Struts2-S007详细分析"><img src="https://s4.ax1x.com/2022/01/27/7jwhwV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Struts2-S007详细分析"/></a><div class="content"><a class="title" href="/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/" title="Struts2-S007详细分析">Struts2-S007详细分析</a><time datetime="2022-01-28T04:42:59.000Z" title="发表于 2022-01-28 12:42:59">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/" title="常用单词随笔记录"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="常用单词随笔记录"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/" title="常用单词随笔记录">常用单词随笔记录</a><time datetime="2022-01-27T16:38:40.000Z" title="发表于 2022-01-28 00:38:40">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/27/Struts2-S005%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/" title="Struts2-S2 005详细分析"><img src="https://s4.ax1x.com/2022/01/27/7jwhwV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Struts2-S2 005详细分析"/></a><div class="content"><a class="title" href="/2022/01/27/Struts2-S005%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/" title="Struts2-S2 005详细分析">Struts2-S2 005详细分析</a><time datetime="2022-01-27T06:08:33.000Z" title="发表于 2022-01-27 14:08:33">2022-01-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/26/Struts2-S003%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/" title="Struts2-S2 003详细分析"><img src="https://s4.ax1x.com/2022/01/27/7jwhwV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Struts2-S2 003详细分析"/></a><div class="content"><a class="title" href="/2022/01/26/Struts2-S003%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/" title="Struts2-S2 003详细分析">Struts2-S2 003详细分析</a><time datetime="2022-01-26T03:10:30.000Z" title="发表于 2022-01-26 11:10:30">2022-01-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/14/UDF%E6%8F%90%E6%9D%83/" title="UDF提权"><img src="https://z3.ax1x.com/2021/05/22/gqkm3F.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="UDF提权"/></a><div class="content"><a class="title" href="/2022/01/14/UDF%E6%8F%90%E6%9D%83/" title="UDF提权">UDF提权</a><time datetime="2022-01-14T08:32:56.000Z" title="发表于 2022-01-14 16:32:56">2022-01-14</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Mengd@</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" async="async" mobile="false"></script></div></body></html>
