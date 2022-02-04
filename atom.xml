@@ -3,11 +3,11 @@
   <title>Mengd@</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://men9da.cn/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://men9da.cn/"/>
   <updated>2022-01-28T07:45:01.165Z</updated>
-  <id>http://example.com/</id>
+  <id>https://men9da.cn/</id>
   
   <author>
     <name>Mengd@</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Struts2-S007详细分析</title>
-    <link href="http://example.com/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
-    <id>http://example.com/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
+    <link href="https://men9da.cn/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
+    <id>https://men9da.cn/2022/01/28/Struts2-S007%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
     <published>2022-01-28T04:42:59.000Z</published>
     <updated>2022-01-28T07:45:01.165Z</updated>
     
@@ -34,16 +34,16 @@
     
     
     
-    <category term="Java代码审计" scheme="http://example.com/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="Java代码审计" scheme="https://men9da.cn/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-    <category term="Struts2" scheme="http://example.com/tags/Struts2/"/>
+    <category term="Struts2" scheme="https://men9da.cn/tags/Struts2/"/>
     
   </entry>
   
   <entry>
     <title>常用单词随笔记录</title>
-    <link href="http://example.com/2022/01/28/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/"/>
-    <id>http://example.com/2022/01/28/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/</id>
+    <link href="https://men9da.cn/2022/01/28/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/"/>
+    <id>https://men9da.cn/2022/01/28/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E9%9A%8F%E7%AC%94%E8%AE%B0%E5%BD%95/</id>
     <published>2022-01-27T16:38:40.000Z</published>
     <updated>2022-01-28T04:37:02.511Z</updated>
     
@@ -59,14 +59,14 @@
     
     
     
-    <category term="常用单词记录" scheme="http://example.com/tags/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E8%AE%B0%E5%BD%95/"/>
+    <category term="常用单词记录" scheme="https://men9da.cn/tags/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E8%AE%B0%E5%BD%95/"/>
     
   </entry>
   
   <entry>
     <title>Struts2-S2 005详细分析</title>
-    <link href="http://example.com/2022/01/27/Struts2-S005%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
-    <id>http://example.com/2022/01/27/Struts2-S005%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
+    <link href="https://men9da.cn/2022/01/27/Struts2-S005%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
+    <id>https://men9da.cn/2022/01/27/Struts2-S005%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
     <published>2022-01-27T06:08:33.000Z</published>
     <updated>2022-01-27T11:08:39.914Z</updated>
     
@@ -81,16 +81,16 @@
     
     
     
-    <category term="Java代码审计" scheme="http://example.com/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="Java代码审计" scheme="https://men9da.cn/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-    <category term="Struts2" scheme="http://example.com/tags/Struts2/"/>
+    <category term="Struts2" scheme="https://men9da.cn/tags/Struts2/"/>
     
   </entry>
   
   <entry>
     <title>Struts2-S2 003详细分析</title>
-    <link href="http://example.com/2022/01/26/Struts2-S003%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
-    <id>http://example.com/2022/01/26/Struts2-S003%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
+    <link href="https://men9da.cn/2022/01/26/Struts2-S003%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
+    <id>https://men9da.cn/2022/01/26/Struts2-S003%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
     <published>2022-01-26T03:10:30.000Z</published>
     <updated>2022-01-27T11:08:36.182Z</updated>
     
@@ -105,16 +105,16 @@
     
     
     
-    <category term="Java代码审计" scheme="http://example.com/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="Java代码审计" scheme="https://men9da.cn/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-    <category term="Struts2" scheme="http://example.com/tags/Struts2/"/>
+    <category term="Struts2" scheme="https://men9da.cn/tags/Struts2/"/>
     
   </entry>
   
   <entry>
     <title>UDF提权</title>
-    <link href="http://example.com/2022/01/14/UDF%E6%8F%90%E6%9D%83/"/>
-    <id>http://example.com/2022/01/14/UDF%E6%8F%90%E6%9D%83/</id>
+    <link href="https://men9da.cn/2022/01/14/UDF%E6%8F%90%E6%9D%83/"/>
+    <id>https://men9da.cn/2022/01/14/UDF%E6%8F%90%E6%9D%83/</id>
     <published>2022-01-14T08:32:56.000Z</published>
     <updated>2022-01-27T11:09:12.844Z</updated>
     
@@ -129,14 +129,14 @@
     
     
     
-    <category term="udf提权" scheme="http://example.com/tags/udf%E6%8F%90%E6%9D%83/"/>
+    <category term="udf提权" scheme="https://men9da.cn/tags/udf%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   
   <entry>
     <title>Struts2-S2 001详细分析</title>
-    <link href="http://example.com/2022/01/09/Struts2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
-    <id>http://example.com/2022/01/09/Struts2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
+    <link href="https://men9da.cn/2022/01/09/Struts2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/"/>
+    <id>https://men9da.cn/2022/01/09/Struts2-S001%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</id>
     <published>2022-01-09T07:03:04.000Z</published>
     <updated>2022-01-27T11:08:34.191Z</updated>
     
@@ -151,16 +151,16 @@
     
     
     
-    <category term="Java代码审计" scheme="http://example.com/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="Java代码审计" scheme="https://men9da.cn/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-    <category term="Struts2" scheme="http://example.com/tags/Struts2/"/>
+    <category term="Struts2" scheme="https://men9da.cn/tags/Struts2/"/>
     
   </entry>
   
   <entry>
     <title>代码审计:信呼oa</title>
-    <link href="http://example.com/2021/11/29/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E4%BF%A1%E5%91%BCoa/"/>
-    <id>http://example.com/2021/11/29/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E4%BF%A1%E5%91%BCoa/</id>
+    <link href="https://men9da.cn/2021/11/29/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E4%BF%A1%E5%91%BCoa/"/>
+    <id>https://men9da.cn/2021/11/29/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E4%BF%A1%E5%91%BCoa/</id>
     <published>2021-11-29T14:21:29.000Z</published>
     <updated>2022-01-27T11:02:30.814Z</updated>
     
@@ -176,14 +176,14 @@
     
     
     
-    <category term="代码审计" scheme="http://example.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="代码审计" scheme="https://men9da.cn/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
   <entry>
     <title>利用SSRF打Redis</title>
-    <link href="http://example.com/2021/05/25/%E5%88%A9%E7%94%A8SSRF%E6%89%93Redis/"/>
-    <id>http://example.com/2021/05/25/%E5%88%A9%E7%94%A8SSRF%E6%89%93Redis/</id>
+    <link href="https://men9da.cn/2021/05/25/%E5%88%A9%E7%94%A8SSRF%E6%89%93Redis/"/>
+    <id>https://men9da.cn/2021/05/25/%E5%88%A9%E7%94%A8SSRF%E6%89%93Redis/</id>
     <published>2021-05-25T06:18:58.000Z</published>
     <updated>2022-01-27T11:07:46.130Z</updated>
     
@@ -198,16 +198,16 @@
     
     
     
-    <category term="SSRF" scheme="http://example.com/tags/SSRF/"/>
+    <category term="SSRF" scheme="https://men9da.cn/tags/SSRF/"/>
     
-    <category term="Redis" scheme="http://example.com/tags/Redis/"/>
+    <category term="Redis" scheme="https://men9da.cn/tags/Redis/"/>
     
   </entry>
   
   <entry>
     <title>美团CTF 2021 web writeup</title>
-    <link href="http://example.com/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/"/>
-    <id>http://example.com/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/</id>
+    <link href="https://men9da.cn/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/"/>
+    <id>https://men9da.cn/2021/05/23/%E7%BE%8E%E5%9B%A2CTF-2021-web-writeup/</id>
     <published>2021-05-23T05:55:44.000Z</published>
     <updated>2022-01-27T11:08:13.986Z</updated>
     
@@ -222,14 +222,14 @@
     
     
     
-    <category term="CTF" scheme="http://example.com/tags/CTF/"/>
+    <category term="CTF" scheme="https://men9da.cn/tags/CTF/"/>
     
   </entry>
   
   <entry>
     <title>常见SQL注入总结,原理分析</title>
-    <link href="http://example.com/2021/05/19/%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/"/>
-    <id>http://example.com/2021/05/19/%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</id>
+    <link href="https://men9da.cn/2021/05/19/%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/"/>
+    <id>https://men9da.cn/2021/05/19/%E5%B8%B8%E8%A7%81SQL%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93-%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</id>
     <published>2021-05-19T03:27:08.000Z</published>
     <updated>2022-01-27T11:20:49.832Z</updated>
     
@@ -245,16 +245,16 @@
     
     
     
-    <category term="SQL注入" scheme="http://example.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    <category term="SQL注入" scheme="https://men9da.cn/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
-    <category term="web安全" scheme="http://example.com/tags/web%E5%AE%89%E5%85%A8/"/>
+    <category term="web安全" scheme="https://men9da.cn/tags/web%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
   <entry>
     <title>记一次一血，CBC字节翻转攻击/bmp隐写</title>
-    <link href="http://example.com/2021/05/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%80%E8%A1%80%EF%BC%8CCBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB-bmp%E9%9A%90%E5%86%99/"/>
-    <id>http://example.com/2021/05/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%80%E8%A1%80%EF%BC%8CCBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB-bmp%E9%9A%90%E5%86%99/</id>
+    <link href="https://men9da.cn/2021/05/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%80%E8%A1%80%EF%BC%8CCBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB-bmp%E9%9A%90%E5%86%99/"/>
+    <id>https://men9da.cn/2021/05/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%80%E8%A1%80%EF%BC%8CCBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB-bmp%E9%9A%90%E5%86%99/</id>
     <published>2021-05-19T02:30:23.000Z</published>
     <updated>2022-01-27T11:08:10.674Z</updated>
     
@@ -269,20 +269,20 @@
     
     
     
-    <category term="CTF" scheme="http://example.com/tags/CTF/"/>
+    <category term="CTF" scheme="https://men9da.cn/tags/CTF/"/>
     
-    <category term="bmp隐写" scheme="http://example.com/tags/bmp%E9%9A%90%E5%86%99/"/>
+    <category term="bmp隐写" scheme="https://men9da.cn/tags/bmp%E9%9A%90%E5%86%99/"/>
     
-    <category term="web" scheme="http://example.com/tags/web/"/>
+    <category term="web" scheme="https://men9da.cn/tags/web/"/>
     
-    <category term="CBC字节翻转攻击" scheme="http://example.com/tags/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/"/>
+    <category term="CBC字节翻转攻击" scheme="https://men9da.cn/tags/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/"/>
     
   </entry>
   
   <entry>
     <title>SSRF gopher协议构造</title>
-    <link href="http://example.com/2021/05/13/SSRF-gopher%E5%8D%8F%E8%AE%AE%E6%9E%84%E9%80%A0/"/>
-    <id>http://example.com/2021/05/13/SSRF-gopher%E5%8D%8F%E8%AE%AE%E6%9E%84%E9%80%A0/</id>
+    <link href="https://men9da.cn/2021/05/13/SSRF-gopher%E5%8D%8F%E8%AE%AE%E6%9E%84%E9%80%A0/"/>
+    <id>https://men9da.cn/2021/05/13/SSRF-gopher%E5%8D%8F%E8%AE%AE%E6%9E%84%E9%80%A0/</id>
     <published>2021-05-13T09:43:01.000Z</published>
     <updated>2021-05-22T02:38:57.546Z</updated>
     
@@ -297,14 +297,14 @@
     
     
     
-    <category term="SSRF" scheme="http://example.com/tags/SSRF/"/>
+    <category term="SSRF" scheme="https://men9da.cn/tags/SSRF/"/>
     
   </entry>
   
   <entry>
     <title>ThinkPhp5.0.x反序列化链分析</title>
-    <link href="http://example.com/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/"/>
-    <id>http://example.com/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/</id>
+    <link href="https://men9da.cn/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/"/>
+    <id>https://men9da.cn/2021/04/27/ThinkPhp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%93%BE%E5%88%86%E6%9E%90/</id>
     <published>2021-04-27T09:41:59.000Z</published>
     <updated>2022-01-27T11:08:52.838Z</updated>
     
@@ -319,18 +319,18 @@
     
     
     
-    <category term="Thinkphp5" scheme="http://example.com/tags/Thinkphp5/"/>
+    <category term="Thinkphp5" scheme="https://men9da.cn/tags/Thinkphp5/"/>
     
-    <category term="源码审计" scheme="http://example.com/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="源码审计" scheme="https://men9da.cn/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-    <category term="反序列化" scheme="http://example.com/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    <category term="反序列化" scheme="https://men9da.cn/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
     
   </entry>
   
   <entry>
     <title>Golang-Windows环境配置踩坑(超详细)</title>
-    <link href="http://example.com/2021/03/03/Golang-Windows%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/"/>
-    <id>http://example.com/2021/03/03/Golang-Windows%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</id>
+    <link href="https://men9da.cn/2021/03/03/Golang-Windows%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/"/>
+    <id>https://men9da.cn/2021/03/03/Golang-Windows%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E8%B8%A9%E5%9D%91/</id>
     <published>2021-03-03T02:46:24.000Z</published>
     <updated>2022-01-27T11:08:28.938Z</updated>
     
@@ -345,14 +345,14 @@
     
     
     
-    <category term="Golang" scheme="http://example.com/tags/Golang/"/>
+    <category term="Golang" scheme="https://men9da.cn/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>ThinkPhp5.1.x反序列化漏洞分析利用</title>
-    <link href="http://example.com/2021/03/02/ThinkPhp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%88%A9%E7%94%A8/"/>
-    <id>http://example.com/2021/03/02/ThinkPhp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%88%A9%E7%94%A8/</id>
+    <link href="https://men9da.cn/2021/03/02/ThinkPhp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%88%A9%E7%94%A8/"/>
+    <id>https://men9da.cn/2021/03/02/ThinkPhp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%88%A9%E7%94%A8/</id>
     <published>2021-03-02T06:49:33.000Z</published>
     <updated>2022-01-27T11:09:00.575Z</updated>
     
@@ -367,18 +367,18 @@
     
     
     
-    <category term="Thinkphp5" scheme="http://example.com/tags/Thinkphp5/"/>
+    <category term="Thinkphp5" scheme="https://men9da.cn/tags/Thinkphp5/"/>
     
-    <category term="源码审计" scheme="http://example.com/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="源码审计" scheme="https://men9da.cn/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-    <category term="反序列化" scheme="http://example.com/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    <category term="反序列化" scheme="https://men9da.cn/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
     
   </entry>
   
   <entry>
     <title>ThinkPhp5任意类调用漏洞</title>
-    <link href="http://example.com/2021/01/25/ThinkPhp5%E4%BB%BB%E6%84%8F%E7%B1%BB%E8%B0%83%E7%94%A8%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://example.com/2021/01/25/ThinkPhp5%E4%BB%BB%E6%84%8F%E7%B1%BB%E8%B0%83%E7%94%A8%E6%BC%8F%E6%B4%9E/</id>
+    <link href="https://men9da.cn/2021/01/25/ThinkPhp5%E4%BB%BB%E6%84%8F%E7%B1%BB%E8%B0%83%E7%94%A8%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://men9da.cn/2021/01/25/ThinkPhp5%E4%BB%BB%E6%84%8F%E7%B1%BB%E8%B0%83%E7%94%A8%E6%BC%8F%E6%B4%9E/</id>
     <published>2021-01-25T09:19:30.000Z</published>
     <updated>2021-03-12T01:42:24.064Z</updated>
     
@@ -393,18 +393,18 @@
     
     
     
-    <category term="Thinkphp5" scheme="http://example.com/tags/Thinkphp5/"/>
+    <category term="Thinkphp5" scheme="https://men9da.cn/tags/Thinkphp5/"/>
     
-    <category term="源码审计" scheme="http://example.com/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="源码审计" scheme="https://men9da.cn/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-    <category term="漏洞复现" scheme="http://example.com/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    <category term="漏洞复现" scheme="https://men9da.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
   <entry>
     <title>配置PhpStorm+xdebug调试环境</title>
-    <link href="http://example.com/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/"/>
-    <id>http://example.com/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/</id>
+    <link href="https://men9da.cn/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/"/>
+    <id>https://men9da.cn/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/</id>
     <published>2021-01-24T10:07:54.000Z</published>
     <updated>2021-01-28T15:54:42.666Z</updated>
     
@@ -420,18 +420,18 @@
     
     
     
-    <category term="PHP" scheme="http://example.com/tags/PHP/"/>
+    <category term="PHP" scheme="https://men9da.cn/tags/PHP/"/>
     
-    <category term="XDEBUG" scheme="http://example.com/tags/XDEBUG/"/>
+    <category term="XDEBUG" scheme="https://men9da.cn/tags/XDEBUG/"/>
     
-    <category term="动态调试" scheme="http://example.com/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
+    <category term="动态调试" scheme="https://men9da.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/"/>
     
   </entry>
   
   <entry>
     <title>BUUCTF刷题记录</title>
-    <link href="http://example.com/2020/12/18/BUUCTF%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
-    <id>http://example.com/2020/12/18/BUUCTF%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</id>
+    <link href="https://men9da.cn/2020/12/18/BUUCTF%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"/>
+    <id>https://men9da.cn/2020/12/18/BUUCTF%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/</id>
     <published>2020-12-18T10:29:33.000Z</published>
     <updated>2022-01-27T11:01:36.118Z</updated>
     
@@ -446,16 +446,16 @@
     
     
     
-    <category term="BUUCTF" scheme="http://example.com/tags/BUUCTF/"/>
+    <category term="BUUCTF" scheme="https://men9da.cn/tags/BUUCTF/"/>
     
-    <category term="CTF复现" scheme="http://example.com/tags/CTF%E5%A4%8D%E7%8E%B0/"/>
+    <category term="CTF复现" scheme="https://men9da.cn/tags/CTF%E5%A4%8D%E7%8E%B0/"/>
     
   </entry>
   
   <entry>
     <title>pwn入门体验</title>
-    <link href="http://example.com/2020/12/17/pwn%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C/"/>
-    <id>http://example.com/2020/12/17/pwn%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C/</id>
+    <link href="https://men9da.cn/2020/12/17/pwn%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C/"/>
+    <id>https://men9da.cn/2020/12/17/pwn%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C/</id>
     <published>2020-12-17T14:42:38.000Z</published>
     <updated>2021-02-04T15:08:53.135Z</updated>
     
@@ -471,14 +471,14 @@
     
     
     
-    <category term="pwn入门" scheme="http://example.com/tags/pwn%E5%85%A5%E9%97%A8/"/>
+    <category term="pwn入门" scheme="https://men9da.cn/tags/pwn%E5%85%A5%E9%97%A8/"/>
     
   </entry>
   
   <entry>
     <title>aboutme</title>
-    <link href="http://example.com/2020/12/15/aboutme/"/>
-    <id>http://example.com/2020/12/15/aboutme/</id>
+    <link href="https://men9da.cn/2020/12/15/aboutme/"/>
+    <id>https://men9da.cn/2020/12/15/aboutme/</id>
     <published>2020-12-15T09:32:14.000Z</published>
     <updated>2021-02-04T15:02:50.851Z</updated>
     
