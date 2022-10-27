@@ -2,9 +2,63 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://men9da.cn/2022/10/15/Java%E5%85%B3%E4%BA%8E%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</loc>
+    
+    <lastmod>2022-10-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/2022/10/25/CVE-2022-39135-Apache-calcite-XXE-%E5%88%86%E6%9E%90/</loc>
+    
+    <lastmod>2022-10-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://men9da.cn/2022/04/18/2022%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/</loc>
     
-    <lastmod>2022-06-08</lastmod>
+    <lastmod>2022-10-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/2022/09/08/CVE-2021-36440%E5%88%86%E6%9E%90/</loc>
+    
+    <lastmod>2022-09-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/2022/09/07/%E8%BF%9C%E7%A8%8BPHP%E8%B0%83%E8%AF%95%E5%A4%A7%E5%9D%91/</loc>
+    
+    <lastmod>2022-09-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/2022/07/15/java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</loc>
+    
+    <lastmod>2022-07-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/2022/07/23/%E8%AE%B0%E4%B8%80%E6%AC%A1SpringBoot%E5%AE%A1%E8%AE%A1-%E4%B8%80/</loc>
+    
+    <lastmod>2022-07-23</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -274,7 +328,7 @@
 
   <url>
     <loc>https://men9da.cn/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -282,245 +336,287 @@
   
   <url>
     <loc>https://men9da.cn/tags/BUUCTF/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/CTF%E5%A4%8D%E7%8E%B0/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/SSRF/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/Thinkphp5/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/pwn%E5%85%A5%E9%97%A8/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/PHP/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/XDEBUG/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/udf%E6%8F%90%E6%9D%83/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/Redis/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/CTF/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/bmp%E9%9A%90%E5%86%99/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/web/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/Golang/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/Struts2/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/SQL%E6%B3%A8%E5%85%A5/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/web%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E8%AE%B0%E5%BD%95/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/JAVA%E7%89%B9%E6%80%A7/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/JAVA/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/RMI%E6%B3%A8%E5%85%A5/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/JNDI%E6%B3%A8%E5%85%A5/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/JAVA%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/URLDNS/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/RMI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/shiro/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/Log4j/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://men9da.cn/tags/%E9%9D%A2%E8%AF%95/</loc>
-    <lastmod>2022-07-08</lastmod>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/tags/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</loc>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/tags/java%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/tags/java%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</loc>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/tags/java%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://men9da.cn/tags/php%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/</loc>
+    <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mengd@</title><meta name="author" content="Mengd@"><meta name="copyright" content="Mengd@"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta property="og:type" content="website">
+<meta property="og:title" content="Mengd@">
+<meta property="og:url" content="https://men9da.cn/page/4/index.html">
+<meta property="og:site_name" content="Mengd@">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.ax1x.com/2021/01/15/s010Z4.jpg">
+<meta property="article:author" content="Mengd@">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s3.ax1x.com/2021/01/15/s010Z4.jpg"><link rel="shortcut icon" href="https://s3.ax1x.com/2021/01/15/s0eSiT.png"><link rel="canonical" href="https://men9da.cn/page/4/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: {"text":"Mengd@,Flag,CTF,Web,Misc,Pwn,N0p3,Nysec","fontSize":"15px"},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-10-27 10:12:19'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><link rel="stylesheet" href="/css/background.css"><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Mengd@" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">41</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Mengd@</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site-title">Mengd@</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/" title="配置PhpStorm+xdebug调试环境">     <img class="post_bg" src="https://s3.ax1x.com/2021/01/24/sb2jhT.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="配置PhpStorm+xdebug调试环境"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/01/24/%E9%85%8D%E7%BD%AEPhpstorm-xdebug%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83/" title="配置PhpStorm+xdebug调试环境">配置PhpStorm+xdebug调试环境</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-24T10:07:54.000Z" title="发表于 2021-01-24 18:07:54">2021-01-24</time></span></div><div class="content">最近打算对一些常见的php代码进行源码审计，当然良好的调试环境也是少不了的，在配置PhpStorm+xdebug的时候踩了些坑，遂记录。
+
+
+1.0：下载对应版本的XDEBUGxdebug对php版本信息有着较高的要求，首先得通过当前php的版本信息下载对应的xdebug插件。
+在本地环境查看当前phpinfo：
+我们直接ctrl+a全选复制，打开https://xdebug.org/wizard
+[]
+将所有内容粘贴到框内并且点击Analyse my phpinfo() output
+下载对应的xdebug，复制小标号3的zend_extension = C:\php\ext\php_xdebug-3.0.2-7.2-vc15-nts.dll（注，每个人不一样）
+[]
+1.1：更改php.ini配置文件打开对应目录的php.ini，我这里是D:\phpStudy\PHPTutorial\php\php-7.2.1-nts\php.ini，然后将刚刚复制的加上如下对应配置即可。
+12345678#刚刚复制的xdebug所在路径zend_extension &#x3D; D:\phpSt ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/12/18/BUUCTF%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" title="BUUCTF刷题记录">     <img class="post_bg" src="https://s3.ax1x.com/2021/02/04/y3fVsO.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BUUCTF刷题记录"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/12/18/BUUCTF%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" title="BUUCTF刷题记录">BUUCTF刷题记录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-18T10:29:33.000Z" title="发表于 2020-12-18 18:29:33">2020-12-18</time></span></div><div class="content">护网杯 2018-WEB-easy_tornado 1
+
+直接百度tornado 是一个基于python的web模板，那么肯定存在模板注入，flag.txt告诉我们flag所在文件
+
+
+hints.txt告诉我们flag文件的filehash的格式
+
+
+可以看到想要访问到/fllllllllllllag
+就要让filehash等于md5(cookie_secret+md5(filename))
+那么就要找到cookie_secret，考虑到这个题是模板注入，那么肯定存在某些对象指向全局变量或者指向cookie这个变量
+通过百度，存在一个这样的对象handler.settings，通过它我们能访问到一些全局变量
+
+
+我们找到了cookie_secret 然后按照hint加密即可得到payload
+filename=/fllllllllllllag&amp;filehash=40243a38051c62d9ae18aef649477b51
+[RoarCTF 2019]Easy Calc1这道题考察了php的字符串解析特性，如何利用该特性绕过waf
+首先打开题目链接，发现是一个计算器，输入算 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/12/17/pwn%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C/" title="pwn入门体验">     <img class="post_bg" src="https://s3.ax1x.com/2021/02/04/y3fVsO.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="pwn入门体验"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/12/17/pwn%E5%85%A5%E9%97%A8%E4%BD%93%E9%AA%8C/" title="pwn入门体验">pwn入门体验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-17T14:42:38.000Z" title="发表于 2020-12-17 22:42:38">2020-12-17</time></span></div><div class="content">这是从原来的博客搬过来的，之前刚开始接触pwn学的，现在已经转战web，留作纪念。一下题目均来自攻防世界pwn新手区
+level2:连接题目，发现一个输入口
+
+
+检查保护措施
+
+
+打开ida,观察主函数，主函数很简单，调用vulnerable_function后输出Hello，World
+
+
+进入函数vulnerable_function，buf最大字节长度0x88，比0x100小，存在溢出
+
+
+观察函数列表，没有发现可以执行shellcode的函数
+根据题目信息，需要用到ROP，猜测需要构建函数栈帧。缺少变量，shift+F12查看一下字符串，发现了我们需要的东西
+
+
+思路：将buf溢出，覆盖read函数的返回地址为_system函数。然后用/bin/sh构建一个栈帧，执行shellcode
+_system = 0x08048320
+shell = 0x0804A024
+payload：’a’*0x88 + p32(1) + p32(_system) + p32(1) + p32(shell) + P32(1)
+exp：
+1234567from pwn import*res &#x3 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/12/15/aboutme/" title="aboutme">     <img class="post_bg" src="https://s3.ax1x.com/2021/02/04/y3WGVJ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="aboutme"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/12/15/aboutme/" title="aboutme">aboutme</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-12-15T09:32:14.000Z" title="发表于 2020-12-15 17:32:14">2020-12-15</time></span></div><div class="content">一名菜鸡ctfer，web🐕，努力学习中……
+原来的博客太卡了，现在重新搭建博客。之前的文章搬了一部分留作纪念，在这里重新开始写文章。
+
+
+联系方式：
+微信：
+
+QQ：
+
+</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://s3.ax1x.com/2021/01/15/s010Z4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Mengd@</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">41</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kumengda"><i class="fab fa-github"></i><span>访问我的github</span></a></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is Mengd@ Blog</div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/10/25/CVE-2022-39135-Apache-calcite-XXE-%E5%88%86%E6%9E%90/" title="CVE-2022-39135(Apache calcite XXE)分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CVE-2022-39135(Apache calcite XXE)分析"/></a><div class="content"><a class="title" href="/2022/10/25/CVE-2022-39135-Apache-calcite-XXE-%E5%88%86%E6%9E%90/" title="CVE-2022-39135(Apache calcite XXE)分析">CVE-2022-39135(Apache calcite XXE)分析</a><time datetime="2022-10-25T13:55:39.000Z" title="发表于 2022-10-25 21:55:39">2022-10-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/15/Java%E5%85%B3%E4%BA%8E%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/" title="Java关于内存马的那些事"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java关于内存马的那些事"/></a><div class="content"><a class="title" href="/2022/10/15/Java%E5%85%B3%E4%BA%8E%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/" title="Java关于内存马的那些事">Java关于内存马的那些事</a><time datetime="2022-10-15T01:52:30.000Z" title="发表于 2022-10-15 09:52:30">2022-10-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/08/CVE-2021-36440%E5%88%86%E6%9E%90/" title="CVE-2021-36440分析"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CVE-2021-36440分析"/></a><div class="content"><a class="title" href="/2022/09/08/CVE-2021-36440%E5%88%86%E6%9E%90/" title="CVE-2021-36440分析">CVE-2021-36440分析</a><time datetime="2022-09-07T16:29:42.000Z" title="发表于 2022-09-08 00:29:42">2022-09-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/07/%E8%BF%9C%E7%A8%8BPHP%E8%B0%83%E8%AF%95%E5%A4%A7%E5%9D%91/" title="远程PHP调试大坑"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="远程PHP调试大坑"/></a><div class="content"><a class="title" href="/2022/09/07/%E8%BF%9C%E7%A8%8BPHP%E8%B0%83%E8%AF%95%E5%A4%A7%E5%9D%91/" title="远程PHP调试大坑">远程PHP调试大坑</a><time datetime="2022-09-07T15:25:58.000Z" title="发表于 2022-09-07 23:25:58">2022-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/23/%E8%AE%B0%E4%B8%80%E6%AC%A1SpringBoot%E5%AE%A1%E8%AE%A1-%E4%B8%80/" title="记一次SpringBoot审计(一)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记一次SpringBoot审计(一)"/></a><div class="content"><a class="title" href="/2022/07/23/%E8%AE%B0%E4%B8%80%E6%AC%A1SpringBoot%E5%AE%A1%E8%AE%A1-%E4%B8%80/" title="记一次SpringBoot审计(一)">记一次SpringBoot审计(一)</a><time datetime="2022-07-23T10:09:11.000Z" title="发表于 2022-07-23 18:09:11">2022-07-23</time></div></div></div></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" style="font-size: 1.1em; color: #999">-Java代码审计</a> <a href="/tags/java%E5%AE%89%E5%85%A8/" style="font-size: 1.1em; color: #999">-java安全</a> <a href="/tags/php%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95/" style="font-size: 1.1em; color: #999">-php远程调试</a> <a href="/tags/BUUCTF/" style="font-size: 1.1em; color: #999">BUUCTF</a> <a href="/tags/CBC%E5%AD%97%E8%8A%82%E7%BF%BB%E8%BD%AC%E6%94%BB%E5%87%BB/" style="font-size: 1.1em; color: #999">CBC字节翻转攻击</a> <a href="/tags/CTF/" style="font-size: 1.18em; color: #999ca1">CTF</a> <a href="/tags/CTF%E5%A4%8D%E7%8E%B0/" style="font-size: 1.1em; color: #999">CTF复现</a> <a href="/tags/Golang/" style="font-size: 1.1em; color: #999">Golang</a> <a href="/tags/JAVA/" style="font-size: 1.1em; color: #999">JAVA</a> <a href="/tags/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 1.1em; color: #999">JAVA反序列化</a> <a href="/tags/JAVA%E5%AE%89%E5%85%A8/" style="font-size: 1.42em; color: #99a6b7">JAVA安全</a> <a href="/tags/JAVA%E7%89%B9%E6%80%A7/" style="font-size: 1.1em; color: #999">JAVA特性</a> <a href="/tags/JNDI%E6%B3%A8%E5%85%A5/" style="font-size: 1.1em; color: #999">JNDI注入</a> <a href="/tags/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" style="font-size: 1.5em; color: #99a9bf">Java代码审计</a> <a href="/tags/Log4j/" style="font-size: 1.1em; color: #999">Log4j</a> <a href="/tags/PHP/" style="font-size: 1.1em; color: #999">PHP</a> <a href="/tags/RMI%E6%B3%A8%E5%85%A5/" style="font-size: 1.1em; color: #999">RMI注入</a> <a href="/tags/RMI%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" style="font-size: 1.1em; color: #999">RMI源码分析</a> <a href="/tags/Redis/" style="font-size: 1.1em; color: #999">Redis</a> <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 1.1em; color: #999">SQL注入</a> <a href="/tags/SSRF/" style="font-size: 1.18em; color: #999ca1">SSRF</a> <a href="/tags/Struts2/" style="font-size: 1.34em; color: #99a3b0">Struts2</a> <a href="/tags/Thinkphp5/" style="font-size: 1.26em; color: #999fa8">Thinkphp5</a> <a href="/tags/URLDNS/" style="font-size: 1.1em; color: #999">URLDNS</a> <a href="/tags/XDEBUG/" style="font-size: 1.1em; color: #999">XDEBUG</a> <a href="/tags/bmp%E9%9A%90%E5%86%99/" style="font-size: 1.1em; color: #999">bmp隐写</a> <a href="/tags/java%E5%AE%89%E5%85%A8/" style="font-size: 1.1em; color: #999">java安全</a> <a href="/tags/java%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" style="font-size: 1.1em; color: #999">java安全基础</a> <a href="/tags/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" style="font-size: 1.1em; color: #999">php代码审计</a> <a href="/tags/pwn%E5%85%A5%E9%97%A8/" style="font-size: 1.1em; color: #999">pwn入门</a> <a href="/tags/shiro/" style="font-size: 1.1em; color: #999">shiro</a> <a href="/tags/udf%E6%8F%90%E6%9D%83/" style="font-size: 1.1em; color: #999">udf提权</a> <a href="/tags/web/" style="font-size: 1.1em; color: #999">web</a> <a href="/tags/web%E5%AE%89%E5%85%A8/" style="font-size: 1.1em; color: #999">web安全</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" style="font-size: 1.18em; color: #999ca1">代码审计</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95/" style="font-size: 1.1em; color: #999">动态调试</a> <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 1.18em; color: #999ca1">反序列化</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E5%8D%95%E8%AF%8D%E8%AE%B0%E5%BD%95/" style="font-size: 1.1em; color: #999">常用单词记录</a> <a href="/tags/%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1/" style="font-size: 1.26em; color: #999fa8">源码审计</a> <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" style="font-size: 1.1em; color: #999">漏洞复现</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/09/"><span class="card-archive-list-date">九月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">七月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/06/"><span class="card-archive-list-date">六月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">四月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/03/"><span class="card-archive-list-date">三月 2022</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/02/"><span class="card-archive-list-date">二月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/01/"><span class="card-archive-list-date">一月 2022</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item more is-center"><a class="card-archive-list-link-more" href="/archives/">
+              <span>查看更多</span><i class="fas fa-angle-right"  ></i></a></li></ul></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">34</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-10-27T02:12:19.473Z"></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Mengd@</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script>function subtitleType () {
+  $.getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js',function () {
+    jinrishici.load(function (result) {
+      if (true) {
+        var sub = "Welcome To Mengd@ Blog".length == 0 ? new Array() : "Welcome To Mengd@ Blog".split(',')
+        var content = result.data.content
+        var both = sub.unshift(content)
+        var typed = new Typed('#subtitle', {
+          strings: sub,
+          startDelay: 300,
+          typeSpeed: 150,
+          loop: true,
+          backSpeed: 50,
+        })
+      } else {
+        document.getElementById('subtitle').innerHTML = result.data.content
+      }
+    })
+  })
+}
+
+if (true) {
+  if (typeof Typed === 'function') subtitleType()
+  else $.getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js', subtitleType)
+} else {
+  subtitleType()
+}
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" async="async" mobile="false"></script></div></body></html>
